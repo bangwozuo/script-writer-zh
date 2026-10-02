@@ -1,0 +1,75 @@
+{
+  "skill_id": "de_media_02_sk06",
+  "name": "敏感词预审",
+  "type": "atomic",
+  "input": {
+    "type": "object",
+    "required": ["text", "platform"],
+    "properties": {
+      "text": {
+        "type": "string",
+        "description": "待检文本（口播稿/标题/字幕/置顶评论一起给）"
+      },
+      "platform": {
+        "type": "string",
+        "description": "目标平台，决定限流词口径",
+        "enum": ["抖音", "小红书", "B站", "视频号", "通用"]
+      },
+      "category": {
+        "type": "string",
+        "description": "医疗健康/金融/教育等，触发资质与免责规则"
+      }
+    }
+  },
+  "output": {
+    "type": "object",
+    "required": ["summary", "hits"],
+    "properties": {
+      "summary": {
+        "type": "object",
+        "description": "平台/字数/三级计数/整体判定（通过、修改后发布、不建议发布）",
+        "properties": {
+          "红线": { "type": "number" },
+          "警告": { "type": "number" },
+          "提示": { "type": "number" },
+          "整体判定": { "type": "string", "enum": ["通过", "修改后发布", "不建议发布"] }
+        }
+      },
+      "hits": {
+        "type": "array",
+        "description": "风险清单，逐条带可直接落笔的替换写法",
+        "items": {
+          "type": "object",
+          "properties": {
+            "级别": { "type": "string", "enum": ["🔴 红线", "🟡 警告", "🔵 提示"] },
+            "原文片段": { "type": "string" },
+            "命中规则": { "type": "string" },
+            "依据": { "type": "string" },
+            "建议改法": { "type": "string" }
+          }
+        }
+      },
+      "need_material": {
+        "type": "array",
+        "description": "需补充材料（数据出处/资质/检测报告）"
+      },
+      "disclaimers": {
+        "type": "array",
+        "description": "医疗/健康/金融内容需加的免责话术位"
+      }
+    }
+  },
+  "constraints": {
+    "rule_classes": ["法定违禁词（广告法第九条等）", "平台限流词（导流/诱导/夸大/擦边）", "内容红线（未核实数据/医疗断言/BGM版权/低俗）"],
+    "levels": { "红线": "必须改", "警告": "建议改", "提示": "需补材料" },
+    "verdict_rule": "有红线=不建议发布；仅警告=修改后发布；全绿=通过",
+    "forbidden_actions": [
+      "编造违规项",
+      "提供谐音/拆字/拼音等规避审核写法",
+      "冒充平台审核结果",
+      "模糊结论（「应该没问题吧」）"
+    ],
+    "ai_label_required": true,
+    "human_review_required": true
+  }
+}

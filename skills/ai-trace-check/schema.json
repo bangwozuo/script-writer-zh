@@ -1,0 +1,89 @@
+{
+  "skill_id": "de_media_02_sk05",
+  "name": "AI 痕迹自检",
+  "type": "atomic",
+  "input": {
+    "type": "object",
+    "required": ["text"],
+    "properties": {
+      "text": {
+        "type": "string",
+        "description": "待检文稿（口播稿/图文稿），≥50 字才出统计结论",
+        "minLength": 1
+      }
+    }
+  },
+  "output": {
+    "type": "object",
+    "required": ["verdict", "metrics", "sentences"],
+    "properties": {
+      "verdict": {
+        "type": "string",
+        "description": "整体判定：🔴 高 AI 痕迹（≥55）/ 🟡 中度（30-54）/ ✅ 人味正常（<30）"
+      },
+      "score": {
+        "type": "number",
+        "description": "AI 痕迹分 0-100，脚本加权计算（衔接词35/CV30/均长连句16/抽象词15/三段式10）"
+      },
+      "metrics": {
+        "type": "object",
+        "description": "五维指标：字数/句数/平均句长/句长CV/衔接词密度/抽象词密度/口语标志词密度/均长连句组数/排比组数/完美三段式等"
+      },
+      "sentences": {
+        "type": "array",
+        "description": "句段级明细",
+        "items": {
+          "type": "object",
+          "properties": {
+            "#": { "type": "number" },
+            "句长": { "type": "number" },
+            "句子": { "type": "string" },
+            "痕迹标记": { "type": "string" },
+            "判定": { "type": "string", "enum": ["🔴", "🟡", "✅"] }
+          }
+        }
+      },
+      "issues": {
+        "type": "array",
+        "items": { "type": "string" },
+        "description": "按优先级排序的问题清单，每条带可落笔的改写方向"
+      }
+    }
+  },
+  "scripts": [
+    {
+      "path": "scripts/ai_trace_check.py",
+      "run": "python scripts/ai_trace_check.py --input examples/input.json --outdir out",
+      "demo": "python scripts/ai_trace_check.py --demo"
+    }
+  ],
+  "artifacts": [
+    "out/AI痕迹检测报告.xlsx",
+    "out/句长分布.png",
+    "out/ai_trace.json"
+  ],
+  "constraints": {
+    "min_text_length": 50,
+    "scoring_weights": {
+      "connector_density": 35,
+      "cv_deficit": 30,
+      "flat_runs": 16,
+      "buzzword_density": 15,
+      "perfect_structure": 10
+    },
+    "thresholds": {
+      "connector_per_1k": 3,
+      "cv_human": 0.5,
+      "cv_ai": 0.4,
+      "flat_run_len": 18,
+      "buzzword_per_1k": 2
+    },
+    "forbidden_actions": [
+      "编造检测数值（以脚本实跑为准）",
+      "把有意排比/引用原文判成 AI 腔",
+      "承诺平台 AI 检测必过"
+    ],
+    "ai_label_required": true,
+    "human_review_required": true
+  }
+}

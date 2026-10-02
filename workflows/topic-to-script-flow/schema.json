@@ -1,0 +1,74 @@
+{
+  "workflow_id": "de_media_02_wf01",
+  "name": "选题转脚本",
+  "type": "composite",
+  "orchestrates": ["de_media_02_sk02 (hook-copy-craft)", "de_media_02_sk01 (script-structure-generate)"],
+  "input": {
+    "type": "object",
+    "required": ["topic", "duration_s", "segments"],
+    "properties": {
+      "topic": { "type": "string", "description": "选题与真实素材" },
+      "duration_s": { "type": "number", "description": "目标成片时长（30/45/60/90）" },
+      "platform": { "type": "string", "description": "抖音/小红书/视频号/B站，默认抖音" },
+      "hook": { "type": "string", "description": "已定稿钩子（≤15 字，超限退回 hook-copy-craft）" },
+      "segments": {
+        "type": "array",
+        "description": "S2 产出的四段式逐段稿",
+        "items": {
+          "type": "object",
+          "required": ["seg", "dur_s", "line"],
+          "properties": {
+            "seg": { "type": "string", "enum": ["钩子", "痛点", "主体", "CTA"] },
+            "dur_s": { "type": "number" },
+            "line": { "type": "string", "description": "该段台词原文" }
+          }
+        }
+      }
+    }
+  },
+  "output": {
+    "type": "object",
+    "required": ["verdict", "rows", "share"],
+    "properties": {
+      "verdict": { "type": "string", "enum": ["通过", "需微调", "打回重改"] },
+      "total_s": { "type": "number", "description": "时间轴合计，需 = 目标 ±2s" },
+      "total_chars": { "type": "number", "description": "全文汉字实数，需在 时长×4-5 区间" },
+      "rows": {
+        "type": "array",
+        "description": "逐段校验（段落/时间轴/时长/预算/字数/语速/判定/说明）"
+      },
+      "share": {
+        "type": "array",
+        "description": "段落时长 vs 等比预算（60s 基准 3/12/35/10，偏差 ±10%）"
+      },
+      "platform_check": { "type": "object", "description": "平台时长上限核对" },
+      "issues": { "type": "array", "description": "按 🔴 优先排序的问题清单" }
+    }
+  },
+  "scripts": [
+    {
+      "path": "scripts/run_flow.py",
+      "run": "python scripts/run_flow.py --input examples/input.json --outdir out",
+      "demo": "python scripts/run_flow.py --demo"
+    }
+  ],
+  "artifacts": [
+    "out/脚本结构校验表.xlsx",
+    "out/段落字数分布.png",
+    "out/topic_flow.json"
+  ],
+  "constraints": {
+    "speaking_rate": "3.5-6.0 字/秒（>6 念不完 🔴，<3.5 掉完播 🟡）",
+    "segment_budget_60s": { "钩子": 3, "痛点": 12, "主体": 35, "CTA": 10 },
+    "tolerance": "时间轴 ±2s；段落预算 ±10%；全文字数 时长×4-5",
+    "platform_max": { "抖音": 60, "小红书": 240, "视频号": 60, "B站": 600 },
+    "forbidden_actions": [
+      "跳过 S3 校验直接交付",
+      "模型口算字数语速",
+      "吸收超标钩子（15 字红线退回上游）",
+      "编造案例数据"
+    ],
+    "ai_label_required": true,
+    "human_review_required": true
+  }
+}

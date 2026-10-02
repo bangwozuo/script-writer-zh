@@ -1,0 +1,100 @@
+{
+  "skill_id": "de_media_02_sk01",
+  "name": "脚本结构生成",
+  "type": "atomic",
+  "input": {
+    "type": "object",
+    "required": ["topic", "duration_s"],
+    "properties": {
+      "topic": {
+        "type": "string",
+        "description": "选题与要点素材（真实数据/案例；没有就标「案例待补」）"
+      },
+      "duration_s": {
+        "type": "number",
+        "description": "目标成片时长（30/45/60/90 常用；1500字≈5-6分钟中视频）"
+      },
+      "platform": {
+        "type": "string",
+        "description": "抖音(≤60s)/B站(3-10分钟)/小红书(≤4分钟)/视频号(≤60s)，默认抖音"
+      },
+      "hook": {
+        "type": "string",
+        "description": "上游 hook-copy-craft 的钩子文案（≤15字）；缺省由本技能自拟"
+      },
+      "mode": {
+        "type": "string",
+        "description": "script=纯口播稿（默认）；storyboard=带七字段分镜表",
+        "enum": ["script", "storyboard"]
+      }
+    }
+  },
+  "output": {
+    "type": "object",
+    "required": ["script", "balance"],
+    "properties": {
+      "script": {
+        "type": "string",
+        "description": "分段脚本：钩子(0-3s)/痛点(3-15s)/主体(15-50s)/CTA(50-60s)，每段标字数；主体段用结论前置-论据-案例-金句结构"
+      },
+      "storyboard": {
+        "type": "array",
+        "description": "分镜表（mode=storyboard 时）：镜头号/景别/时长/画面/台词/字幕/音效，台词字数=时长×语速",
+        "items": {
+          "type": "object",
+          "properties": {
+            "镜头号": { "type": "number" },
+            "景别": { "type": "string", "enum": ["特写", "近景", "中景", "全景"] },
+            "时长": { "type": "number" },
+            "画面": { "type": "string" },
+            "台词": { "type": "string" },
+            "字幕": { "type": "string" },
+            "音效": { "type": "string" }
+          }
+        }
+      },
+      "balance": {
+        "type": "array",
+        "description": "字数配平核对：段落/时长/台词字数/语速/判定；语速 >6 字/秒念不完、<3.5 字/秒掉完播",
+        "items": {
+          "type": "object",
+          "properties": {
+            "段落": { "type": "string" },
+            "时长": { "type": "number" },
+            "台词字数": { "type": "number" },
+            "语速": { "type": "number" },
+            "判定": { "type": "string" }
+          }
+        }
+      }
+    }
+  },
+  "constraints": {
+    "speaking_rate": "4-5 字/秒；60s=240-300字，45s=200-225字，30s=130-150字",
+    "segment_budget_60s": {
+      "钩子": "3s / ≤15字",
+      "痛点": "12s / 50-60字",
+      "主体": "35s / 140-180字",
+      "CTA": "10s / 40-50字"
+    },
+    "tolerance": "单段 ±10%；总时长 ±2s",
+    "dead_lines": {
+      "too_fast": "语速 >6 字/秒 = 念不完",
+      "too_slow": "语速 <3.5 字/秒 = 掉完播"
+    },
+    "platform_limits": {
+      "抖音": "≤60s，超出需中视频计划",
+      "B站": "3-10 分钟",
+      "小红书": "≤4 分钟",
+      "视频号": "≤60s"
+    },
+    "forbidden_actions": [
+      "编造数据与案例（无出处标「案例待补」）",
+      "交付不配平的脚本",
+      "钩子超 3s/15 字",
+      "指定可能侵权的 BGM 曲目"
+    ],
+    "ai_label_required": true,
+    "human_review_required": true
+  }
+}

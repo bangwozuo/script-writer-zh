@@ -1,0 +1,94 @@
+{
+  "skill_id": "de_media_02_sk04",
+  "name": "人设语气库",
+  "type": "atomic",
+  "input": {
+    "type": "object",
+    "required": ["samples"],
+    "properties": {
+      "creator": {
+        "type": "string",
+        "description": "创作者/账号名（可选）"
+      },
+      "samples": {
+        "type": "array",
+        "description": "历史稿件样本，≥3 篇且合计 ≥800 字才出画像",
+        "minItems": 3,
+        "items": {
+          "type": "object",
+          "properties": {
+            "title": { "type": "string", "description": "稿件标题/期数" },
+            "text": { "type": "string", "description": "稿件正文" }
+          }
+        }
+      }
+    }
+  },
+  "output": {
+    "type": "object",
+    "required": ["profile", "constraints"],
+    "properties": {
+      "profile": {
+        "type": "array",
+        "description": "画像汇总：样本量/平均句长/句长CV/语气词密度/人称词密度/口头禅候选"
+      },
+      "per_sample": {
+        "type": "array",
+        "description": "逐篇统计（字数/句数/平均句长/CV/短句占比/语气词/人称/疑问感叹句占比），异常篇须标注"
+      },
+      "gram_candidates": {
+        "type": "array",
+        "description": "口头禅候选（跨≥2篇、频次≥2 的 2-3 字 n-gram），全部「待创作者确认」",
+        "items": {
+          "type": "object",
+          "properties": {
+            "口头禅候选": { "type": "string" },
+            "频次": { "type": "number" },
+            "出现篇数": { "type": "number" }
+          }
+        }
+      },
+      "constraints": {
+        "type": "array",
+        "description": "改写约束清单（数值化，供 colloquial-rewrite 调用）",
+        "items": {
+          "type": "object",
+          "properties": {
+            "约束项": { "type": "string" },
+            "目标值": { "type": "string" },
+            "依据": { "type": "string" }
+          }
+        }
+      }
+    }
+  },
+  "scripts": [
+    {
+      "path": "scripts/voice_profile.py",
+      "run": "python scripts/voice_profile.py --input examples/input.json --outdir out",
+      "demo": "python scripts/voice_profile.py --demo"
+    }
+  ],
+  "artifacts": [
+    "out/语气画像.xlsx",
+    "out/逐篇句长分布.png",
+    "out/voice_profile.json"
+  ],
+  "constraints": {
+    "min_samples": 3,
+    "min_total_chars": 800,
+    "thresholds": {
+      "tone_word_per_100": "2-4",
+      "second_person_per_1k": 10,
+      "catchphrase_max_per_post": 4,
+      "cv_floor": 0.5
+    },
+    "forbidden_actions": [
+      "凭空发明人设（画像只能来自样本）",
+      "把未确认的 n-gram 候选直接当口头禅",
+      "混用复数称呼（家人们/宝子们不得互换）"
+    ],
+    "ai_label_required": true,
+    "human_review_required": true
+  }
+}

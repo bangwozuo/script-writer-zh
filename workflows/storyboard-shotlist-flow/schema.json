@@ -1,0 +1,79 @@
+{
+  "workflow_id": "de_media_02_wf03",
+  "name": "分镜与拍摄清单",
+  "type": "composite",
+  "orchestrates": ["de_media_02_sk01 (script-structure-generate)"],
+  "input": {
+    "type": "object",
+    "required": ["target_duration_s", "shots"],
+    "properties": {
+      "title": { "type": "string", "description": "片名" },
+      "target_duration_s": { "type": "number", "description": "目标成片时长（合计 ±2s）" },
+      "platform": { "type": "string", "description": "抖音(≤60s)/小红书(≤240s)/视频号(≤60s)/B站(≤600s)，默认抖音" },
+      "shots": {
+        "type": "array",
+        "description": "分镜表，七字段缺一不可",
+        "items": {
+          "type": "object",
+          "required": ["shot_no", "scene", "dur_s", "visual"],
+          "properties": {
+            "shot_no": { "type": "number", "description": "镜头号" },
+            "scene": { "type": "string", "enum": ["特写", "近景", "中景", "全景"] },
+            "dur_s": { "type": "number", "description": "时长（秒）" },
+            "visual": { "type": "string", "description": "画面：具体到动作，不写「拍XX」" },
+            "line": { "type": "string", "description": "台词（纯 B-roll 留空并确认）" },
+            "subtitle": { "type": "string", "description": "字幕，一行 ≤15 字符；无则「—」" },
+            "sfx": { "type": "string", "description": "音效点位；无则「—」" }
+          }
+        }
+      }
+    }
+  },
+  "output": {
+    "type": "object",
+    "required": ["verdict", "rows", "shooting"],
+    "properties": {
+      "verdict": { "type": "string", "enum": ["通过", "需微调", "打回重改"] },
+      "total_s": { "type": "number", "description": "分镜时长合计，需 = 目标 ±2s" },
+      "rows": {
+        "type": "array",
+        "description": "逐镜校验（镜头号/景别/时间轴/时长/台词字数/语速/字幕/音效/画面/判定/说明）"
+      },
+      "shooting": {
+        "type": "array",
+        "description": "拍摄要点：音效清单（去重）/纯画面镜头/收音要点/大数字余量/待修数"
+      },
+      "platform_check": { "type": "object", "description": "平台时长上限核对" },
+      "issues": { "type": "array", "description": "按 🔴 优先排序的问题清单" }
+    }
+  },
+  "scripts": [
+    {
+      "path": "scripts/run_flow.py",
+      "run": "python scripts/run_flow.py --input examples/input.json --outdir out",
+      "demo": "python scripts/run_flow.py --demo"
+    }
+  ],
+  "artifacts": [
+    "out/分镜拍摄清单.xlsx",
+    "out/分镜时长分布.png",
+    "out/storyboard_flow.json"
+  ],
+  "constraints": {
+    "core_deadline": "台词字数 = 时长 × 语速，超字数必超时（3s 镜头最多 13-14 字 @4.5字/秒）",
+    "speaking_rate": "3.5-6.0 字/秒（>6 念不完 🔴，<3.5 过稀 🟡）",
+    "scene_enum": ["特写", "近景", "中景", "全景"],
+    "subtitle_max": "15 字符",
+    "timeline_tolerance": "±2s",
+    "platform_max": { "抖音": 60, "小红书": 240, "视频号": 60, "B站": 600 },
+    "forbidden_actions": [
+      "吸收未配平脚本（超时回上游）",
+      "模型口算语速",
+      "画面写「拍XX」不写动作",
+      "指定侵权 BGM 曲目",
+      "跳过人工逐镜对稿"
+    ],
+    "ai_label_required": true,
+    "human_review_required": true
+  }
+}

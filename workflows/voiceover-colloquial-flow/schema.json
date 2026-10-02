@@ -1,0 +1,77 @@
+{
+  "workflow_id": "de_media_02_wf02",
+  "name": "口播稿口语化改写",
+  "type": "composite",
+  "orchestrates": ["de_media_02_sk04 (persona-voice-library)", "de_media_02_sk03 (colloquial-rewrite)"],
+  "input": {
+    "type": "object",
+    "required": ["text"],
+    "properties": {
+      "text": { "type": "string", "description": "待改写文稿（≥50 字，汉字实数）" },
+      "target_duration_s": { "type": "number", "description": "目标成片时长（核总字数：时长×4-5 字）" },
+      "profile": {
+        "type": "object",
+        "description": "S1 persona-voice-library 的画像约束（可选，有则优先）",
+        "properties": {
+          "avg_sentence_target": { "type": "array", "description": "[下限, 上限] 平均句长目标" },
+          "tone_range": { "type": "array", "description": "[下限, 上限] 语气词每百字" },
+          "catchphrase_max": { "type": "number", "description": "口头禅每篇上限（默认 4）" }
+        }
+      }
+    }
+  },
+  "output": {
+    "type": "object",
+    "required": ["verdict", "rows"],
+    "properties": {
+      "verdict": { "type": "string", "enum": ["通过", "需微调", "打回重改"] },
+      "rows": {
+        "type": "array",
+        "description": "六指标校验：衔接词密度(<1/千字)/平均句长(8-14字)/CV(≥0.5)/均长连句(0组)/语气词(2-4/百字)/第二人称(≥10/千字)/总字数(时长×4-5)",
+        "items": {
+          "type": "object",
+          "properties": {
+            "指标": { "type": "string" },
+            "目标": { "type": "string" },
+            "实测": { "type": "string" },
+            "判定": { "type": "string", "enum": ["✅", "🟡", "🔴"] },
+            "说明": { "type": "string" }
+          }
+        }
+      },
+      "issues": { "type": "array", "description": "按级别排序的问题清单" }
+    }
+  },
+  "scripts": [
+    {
+      "path": "scripts/run_flow.py",
+      "run": "python scripts/run_flow.py --input examples/input.json --outdir out",
+      "demo": "python scripts/run_flow.py --demo"
+    }
+  ],
+  "artifacts": [
+    "out/口语化校验表.xlsx",
+    "out/句长分布.png",
+    "out/colloquial_flow.json"
+  ],
+  "constraints": {
+    "six_metrics": {
+      "connector_per_1k": "<1（>3 🔴）",
+      "avg_sentence_len": "8-14 字（画像优先）",
+      "cv": "≥0.5（<0.4 🔴）",
+      "flat_runs": "连续 3 句同长 >18 字 = 0 组（有 🔴）",
+      "tone_per_100": "2-4（>4 🟡 油腻）",
+      "second_person_per_1k": "≥10",
+      "total_chars": "时长×4-5（60s=240-300）"
+    },
+    "forbidden_actions": [
+      "跳过画像直接改（通用口语≠个人风格）",
+      "跳过校验（模型口算常差 10%+）",
+      "增删事实",
+      "制造同音歧义",
+      "语气词 >4 个/百字"
+    ],
+    "ai_label_required": true,
+    "human_review_required": true
+  }
+}

@@ -1,0 +1,49 @@
+name: 脚本创作师
+repo: bangwozuo/script-writer-zh
+legacy_name: 短视频脚本创作师
+version: 0.2.0
+asset_type: prompt-only
+stage: P0
+complexity: M：WF1-WF3 为 S 级提示词，WF4 检测闸门需模型/API 集成（M），总估 8-10 人日
+group: 自媒体创作者
+runtime_dependencies: none
+api_key_required: false
+demand_ids:
+  - D01
+  - D26
+
+workflows:
+  - name: 选题转脚本
+    id: de_media_02_wf01
+  - name: 口播稿口语化改写
+    id: de_media_02_wf02
+  - name: 分镜与拍摄清单
+    id: de_media_02_wf03
+  - name: AI 痕迹检测与降 AI 味
+    id: de_media_02_wf04
+
+skills:
+  - id: script-structure-generate
+    name: 脚本结构生成
+    family: 
+  - id: hook-copy-craft
+    name: 钩子文案锻造
+    family: 
+  - id: colloquial-rewrite
+    name: 口语化改写
+    family: 
+  - id: persona-voice-library
+    name: 人设语气库
+    family: 
+  - id: ai-trace-check
+    name: AI 痕迹自检
+    family: 
+  - id: sensitive-word-precheck
+    name: 敏感词预审
+    family: 
+
+compliance:
+  ai_label_required: true
+  human_review_required: true
+  forbidden_words_check: true
+  official_api_only: true

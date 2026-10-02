@@ -1,0 +1,68 @@
+{
+  "skill_id": "de_media_02_sk03",
+  "name": "口语化改写",
+  "type": "atomic",
+  "input": {
+    "type": "object",
+    "required": ["text"],
+    "properties": {
+      "text": {
+        "type": "string",
+        "description": "待改写的书面稿"
+      },
+      "target_duration_s": {
+        "type": "number",
+        "description": "目标成片时长（秒），用于按 4-5 字/秒核字数；缺省按 60s 校验"
+      },
+      "voice_profile": {
+        "type": "object",
+        "description": "persona-voice-library 的改写约束清单（可选；有则画像约束优先）"
+      }
+    }
+  },
+  "output": {
+    "type": "object",
+    "required": ["rewritten", "changes", "self_check"],
+    "properties": {
+      "rewritten": {
+        "type": "string",
+        "description": "改写后全文，附字数与按 4.5 字/秒估算的口播时长"
+      },
+      "changes": {
+        "type": "array",
+        "description": "逐段改动对照",
+        "items": {
+          "type": "object",
+          "properties": {
+            "原文": { "type": "string" },
+            "改写": { "type": "string" },
+            "改动理由": { "type": "string", "description": "对应四步法中的具体规则" }
+          }
+        }
+      },
+      "self_check": {
+        "type": "object",
+        "description": "六项自查：平均句长(8-14字)/连续3句同长>18字(0组)/衔接词密度(<1个每千字)/语气词密度(2-4个每百字)/第二人称(≥10个每千字)/字数变化(降10-20%)"
+      }
+    }
+  },
+  "constraints": {
+    "speaking_rate": "4-5 字/秒（60s=240-300字，45s=180-225字，1500字≈5-6分钟）",
+    "targets": {
+      "avg_sentence_len": "8-14 字",
+      "cv_floor": 0.5,
+      "connector_per_1k": 1,
+      "tone_word_per_100": "2-4",
+      "second_person_per_1k": 10,
+      "word_count_drop": "10-20%（>30% 说明删了信息）"
+    },
+    "forbidden_actions": [
+      "增删事实、数字、引语",
+      "制造同音歧义（全部/全不）",
+      "语气词 >4 个/百字",
+      "有画像时不守画像约束"
+    ],
+    "ai_label_required": true,
+    "human_review_required": true
+  }
+}

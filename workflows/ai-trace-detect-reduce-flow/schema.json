@@ -1,0 +1,70 @@
+{
+  "workflow_id": "de_media_02_wf04",
+  "name": "AI 痕迹检测与降 AI 味",
+  "type": "composite",
+  "orchestrates": [
+    "de_media_02_sk05 (ai-trace-check)",
+    "de_media_02_sk03 (colloquial-rewrite)",
+    "de_media_02_sk06 (sensitive-word-precheck)"
+  ],
+  "input": {
+    "type": "object",
+    "required": ["text"],
+    "properties": {
+      "text": { "type": "string", "description": "待发布稿件（≥50 字，汉字实数）" },
+      "target_duration_s": { "type": "number", "description": "目标时长（顺带核字数）" }
+    }
+  },
+  "output": {
+    "type": "object",
+    "required": ["verdict", "score", "sensitive_hits"],
+    "properties": {
+      "verdict": { "type": "string", "enum": ["打回重改（不得发布）", "需微调", "通过"] },
+      "score": { "type": "number", "description": "AI 痕迹分 0-100（衔接词35/CV30/均长连句16/抽象词15/三段式10）" },
+      "metrics": { "type": "object", "description": "五维明细（字数/句数/平均句长/CV/密度/连句组/三段式）" },
+      "sentences": { "type": "array", "description": "句段级痕迹明细（句长/痕迹/判定）" },
+      "rewrite_list": {
+        "type": "array",
+        "description": "S2 逐处替换建议（命中词/次数/替换建议），改写不增删事实，改后必复检"
+      },
+      "sensitive_hits": {
+        "type": "array",
+        "description": "S3 敏感词命中（级别/原文片段/命中规则/依据/建议改法）"
+      },
+      "n_red": { "type": "number", "description": "敏感词红线数（≥1 即打回）" },
+      "n_warn": { "type": "number", "description": "敏感词警告数" }
+    }
+  },
+  "scripts": [
+    {
+      "path": "scripts/run_flow.py",
+      "run": "python scripts/run_flow.py --input examples/input.json --outdir out",
+      "demo": "python scripts/run_flow.py --demo"
+    }
+  ],
+  "artifacts": [
+    "out/降AI味与合规检查表.xlsx",
+    "out/句长分布.png",
+    "out/trace_reduce_flow.json"
+  ],
+  "constraints": {
+    "gate_rule": "痕迹分 ≥55 或红线 ≥1 → 打回；30-54 或仅警告 → 需微调；<30 且零命中 → 通过",
+    "scoring_weights": { "connector": 35, "cv": 30, "flat_runs": 16, "buzzword": 15, "structure": 10 },
+    "thresholds": {
+      "connector_per_1k": 3,
+      "cv": "≥0.5（<0.4 🔴）",
+      "flat_run": "连续3句同长>18字",
+      "buzzword_per_1k": 2
+    },
+    "forbidden_actions": [
+      "跳过闸门直接交付",
+      "模型口算痕迹分",
+      "改写增删事实",
+      "改完不复检放行",
+      "提供骗过检测的写法",
+      "痕迹分低豁免敏感词红线"
+    ],
+    "ai_label_required": true,
+    "human_review_required": true
+  }
+}

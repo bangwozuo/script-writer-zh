@@ -1,0 +1,72 @@
+{
+  "skill_id": "de_media_02_sk02",
+  "name": "钩子文案锻造",
+  "type": "atomic",
+  "input": {
+    "type": "object",
+    "required": ["topic"],
+    "properties": {
+      "topic": {
+        "type": "string",
+        "description": "选题（要讲什么）"
+      },
+      "audience": {
+        "type": "string",
+        "description": "目标人群，痛点对着写"
+      },
+      "platform": {
+        "type": "string",
+        "description": "抖音/小红书/B站，默认抖音",
+        "enum": ["抖音", "小红书", "B站", "视频号", "通用"]
+      },
+      "evidence": {
+        "type": "string",
+        "description": "可用的真实素材/数据（防虚构承诺）"
+      }
+    }
+  },
+  "output": {
+    "type": "object",
+    "required": ["hooks", "ab_plan", "risks"],
+    "properties": {
+      "hooks": {
+        "type": "array",
+        "description": "10 条钩子候选，覆盖 ≥4 类型",
+        "items": {
+          "type": "object",
+          "properties": {
+            "钩子台词": { "type": "string", "description": "可直接开拍，首句 ≤15 字（标点不计）" },
+            "类型": { "type": "string", "enum": ["悬念", "反差", "利益", "提问", "热点借势"] },
+            "字数": { "type": "number" },
+            "信息差在哪": { "type": "string", "description": "3 秒内观众拿走的未解项" },
+            "兑现难度": { "type": "string", "enum": ["低", "中", "高"] }
+          }
+        }
+      },
+      "ab_plan": {
+        "type": "object",
+        "description": "A/B 建议：≥3 个不同类型的组合、测法（3-5 小时看 3s 观众占比）、定稿标准（留存最高且完播率 >30%）"
+      },
+      "risks": {
+        "type": "array",
+        "description": "逐条风险标注（虚假承诺/数据无出处/热点过半衰期）"
+      }
+    }
+  },
+  "constraints": {
+    "max_first_sentence_chars": 15,
+    "min_types_covered": 4,
+    "candidates_per_run": 10,
+    "completion_rate_baseline": ">30% 合格，>50% 优秀",
+    "ab_test_window": "3-5 小时",
+    "hot_topic_half_life": "48-72 小时",
+    "forbidden_actions": [
+      "标题党（正文兑现不了的钩子硬推）",
+      "虚构数据与效果承诺",
+      "震惊体/低质标题腔",
+      "蹭灾难悲剧热点、擦边低俗"
+    ],
+    "ai_label_required": true,
+    "human_review_required": true
+  }
+}
