@@ -7,6 +7,8 @@
 
 ![真实执行](docs/assets/run-terminal.png)
 
+![演示视频](docs/assets/demo.mp4)
+
 *上图来自真实执行：181 字改写稿校验判定「打回重改」——六指标中 5 项 ✅，脚本抓出 1 项 🔴（总字数 181 < 240 字下限，60s 成片会留白 20 秒），产物落盘 Excel + PNG + JSON。*
 
 ---

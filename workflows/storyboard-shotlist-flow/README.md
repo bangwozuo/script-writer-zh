@@ -9,6 +9,8 @@
 
 ![真实执行](docs/assets/run-terminal.png)
 
+![演示视频](docs/assets/demo.mp4)
+
 *上图来自真实执行：13 镜 / 60s 校验判定「通过」（问题 0 项），语速全部落在 3.5-6.0 字/秒区间，产物落盘 Excel + PNG + JSON。*
 
 ---
