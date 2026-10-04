@@ -7,7 +7,7 @@
 
 ![真实执行](docs/assets/run-terminal.png)
 
-![演示视频](docs/assets/demo.mp4)
+🎬 **[▶ 观看演示视频](docs/assets/demo.mp4)** — 四幕检测叙事：业务钩子 → 真实执行 → 检查项逐条亮灯 → 交付物
 
 *上图来自真实执行：198 字演示稿 AI 痕迹分 80（🔴 高 AI 痕迹），CV 0.38、衔接词密度 55.6 个/千字，11 句中 10 句命中，产物落盘 Excel + PNG + JSON。*
 

@@ -9,7 +9,7 @@
 
 ![真实执行](docs/assets/run-terminal.png)
 
-![演示视频](docs/assets/demo.mp4)
+🎬 **[▶ 观看演示视频](docs/assets/demo.mp4)** — 四幕创作叙事：业务钩子 → 真实执行 → 要点到成稿演变 → 交付物
 
 *上图来自真实执行：60s 演示稿校验判定「需微调」——脚本抓出 2 个真问题（CTA 段 1.3 字/秒过稀、全文 225 字低于 240 字下限），产物落盘 Excel + PNG + JSON。*
 
