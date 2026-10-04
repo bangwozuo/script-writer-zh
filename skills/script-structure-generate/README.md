@@ -7,7 +7,7 @@
 
 ![输出预览 · 实跑产物](docs/assets/run-terminal.png)
 
-🎬 **[▶ 观看演示视频](docs/assets/demo.mp4)** — 四幕创作叙事：业务钩子 → 真实执行 → 要点到成稿演变 → 交付物
+🎬 **[▶ 观看演示视频（在线播放）](https://cdn.jsdelivr.net/gh/bangwozuo/script-writer-zh@main/skills/script-structure-generate/docs/assets/demo.mp4) · [GitHub 页](https://github.com/bangwozuo/script-writer-zh/blob/main/skills/script-structure-generate/docs/assets/demo.mp4)** — 四幕创作叙事：业务钩子 → 真实执行 → 要点到成稿演变 → 交付物
 
 *上图来自实跑产物渲染：选题「副业避坑」60 秒稿 → 全文 256 字、语速 4.27 字/秒，四段全部配平达标，13 个分镜逐字对齐段落脚本，数据出处逐条核对无编造。*
 

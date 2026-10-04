@@ -9,7 +9,7 @@
 
 ![真实执行](docs/assets/run-terminal.png)
 
-🎬 **[▶ 观看演示视频](docs/assets/demo.mp4)** — 四幕检测叙事：业务钩子 → 真实执行 → 检查项逐条亮灯 → 交付物
+🎬 **[▶ 观看演示视频（在线播放）](https://cdn.jsdelivr.net/gh/bangwozuo/script-writer-zh@main/workflows/ai-trace-detect-reduce-flow/docs/assets/demo.mp4) · [GitHub 页](https://github.com/bangwozuo/script-writer-zh/blob/main/workflows/ai-trace-detect-reduce-flow/docs/assets/demo.mp4)** — 四幕检测叙事：业务钩子 → 真实执行 → 检查项逐条亮灯 → 交付物
 
 *上图来自真实执行：135 字 AI 腔重灾区稿件，闸门判定「打回重改（不得发布）」——AI 痕迹分 70（衔接词 59.3/千字 🔴、抽象词 14.8/千字 🔴、完美三段式 🔴），敏感词红线 1（稳赚）/ 警告 2（神器/加微信），产物落盘 Excel + PNG + JSON。*
 

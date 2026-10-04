@@ -7,7 +7,7 @@
 
 ![输出预览 · 实跑产物](docs/assets/run-terminal.png)
 
-🎬 **[▶ 观看演示视频](docs/assets/demo.mp4)** — 四幕创作叙事：业务钩子 → 真实执行 → 要点到成稿演变 → 交付物
+🎬 **[▶ 观看演示视频（在线播放）](https://cdn.jsdelivr.net/gh/bangwozuo/script-writer-zh@main/skills/hook-copy-craft/docs/assets/demo.mp4) · [GitHub 页](https://github.com/bangwozuo/script-writer-zh/blob/main/skills/hook-copy-craft/docs/assets/demo.mp4)** — 四幕创作叙事：业务钩子 → 真实执行 → 要点到成稿演变 → 交付物
 
 *上图来自实跑产物渲染：选题「普通人下班后做副业」10 条候选，字数 10-14 字全部 ≤15 字铁律，五类覆盖 4 类，附 A/B 组合与逐条风险标注。*
 

@@ -36,7 +36,7 @@
 
 ## 20 秒看真实执行
 
-[![演示视频：5 个资产的真实执行截图](skills/ai-trace-check/docs/assets/run-terminal.png)](docs/demo.mp4)
+[![演示视频：5 个资产的真实执行截图](skills/ai-trace-check/docs/assets/run-terminal.png)](https://cdn.jsdelivr.net/gh/bangwozuo/script-writer-zh@main/docs/demo.mp4)
 
 *点击观看 20 秒演示（`docs/demo.mp4`，1180×1080，每帧 4 秒）：选题转脚本 → 分镜清单 → 敏感词扫描 → AI 痕迹检测 → 降 AI 味闸门，全部为脚本 `--run` 真实执行截图，非摆拍。*
 
@@ -134,7 +134,7 @@ script-writer-zh/
 | [示例库](docs/05-examples.md) | 6 组输入输出示例 |
 | [录像脚本](docs/06-recording-script.md) | 7 镜头分镜 + 旁白稿 |
 | [校验报告](docs/07-test-report.md) | 资产质量校验结果 |
-| [演示视频](docs/demo.mp4) | 5 个资产真实执行截图串编（20s） |
+| [演示视频](https://cdn.jsdelivr.net/gh/bangwozuo/script-writer-zh@main/docs/demo.mp4) | 5 个资产真实执行截图串编（20s） |
 
 ---
 
