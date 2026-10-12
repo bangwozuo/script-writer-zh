@@ -1,45 +1,94 @@
 {
+  "skill_id": "voiceover-colloquial-flow",
   "workflow_id": "de_media_02_wf02",
   "name": "口播稿口语化改写",
   "type": "composite",
-  "orchestrates": ["de_media_02_sk04 (persona-voice-library)", "de_media_02_sk03 (colloquial-rewrite)"],
+  "orchestrates": [
+    "de_media_02_sk04 (persona-voice-library)",
+    "de_media_02_sk03 (colloquial-rewrite)"
+  ],
   "input": {
     "type": "object",
-    "required": ["text"],
+    "required": [
+      "text"
+    ],
     "properties": {
-      "text": { "type": "string", "description": "待改写文稿（≥50 字，汉字实数）" },
-      "target_duration_s": { "type": "number", "description": "目标成片时长（核总字数：时长×4-5 字）" },
+      "text": {
+        "type": "string",
+        "description": "待改写文稿（≥50 字，汉字实数）"
+      },
+      "target_duration_s": {
+        "type": "number",
+        "description": "目标成片时长（核总字数：时长×4-5 字）"
+      },
       "profile": {
         "type": "object",
         "description": "S1 persona-voice-library 的画像约束（可选，有则优先）",
         "properties": {
-          "avg_sentence_target": { "type": "array", "description": "[下限, 上限] 平均句长目标" },
-          "tone_range": { "type": "array", "description": "[下限, 上限] 语气词每百字" },
-          "catchphrase_max": { "type": "number", "description": "口头禅每篇上限（默认 4）" }
+          "avg_sentence_target": {
+            "type": "array",
+            "description": "[下限, 上限] 平均句长目标"
+          },
+          "tone_range": {
+            "type": "array",
+            "description": "[下限, 上限] 语气词每百字"
+          },
+          "catchphrase_max": {
+            "type": "number",
+            "description": "口头禅每篇上限（默认 4）"
+          }
         }
       }
     }
   },
   "output": {
     "type": "object",
-    "required": ["verdict", "rows"],
+    "required": [
+      "verdict",
+      "rows"
+    ],
     "properties": {
-      "verdict": { "type": "string", "enum": ["通过", "需微调", "打回重改"] },
+      "verdict": {
+        "type": "string",
+        "enum": [
+          "通过",
+          "需微调",
+          "打回重改"
+        ]
+      },
       "rows": {
         "type": "array",
         "description": "六指标校验：衔接词密度(<1/千字)/平均句长(8-14字)/CV(≥0.5)/均长连句(0组)/语气词(2-4/百字)/第二人称(≥10/千字)/总字数(时长×4-5)",
         "items": {
           "type": "object",
           "properties": {
-            "指标": { "type": "string" },
-            "目标": { "type": "string" },
-            "实测": { "type": "string" },
-            "判定": { "type": "string", "enum": ["✅", "🟡", "🔴"] },
-            "说明": { "type": "string" }
+            "指标": {
+              "type": "string"
+            },
+            "目标": {
+              "type": "string"
+            },
+            "实测": {
+              "type": "string"
+            },
+            "判定": {
+              "type": "string",
+              "enum": [
+                "✅",
+                "🟡",
+                "🔴"
+              ]
+            },
+            "说明": {
+              "type": "string"
+            }
           }
         }
       },
-      "issues": { "type": "array", "description": "按级别排序的问题清单" }
+      "issues": {
+        "type": "array",
+        "description": "按级别排序的问题清单"
+      }
     }
   },
   "scripts": [
@@ -72,6 +121,7 @@
       "语气词 >4 个/百字"
     ],
     "ai_label_required": true,
-    "human_review_required": true
+    "human_review_required": true,
+    "external_api_required": false
   }
 }

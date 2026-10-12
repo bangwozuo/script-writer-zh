@@ -4,7 +4,10 @@
   "type": "atomic",
   "input": {
     "type": "object",
-    "required": ["topic", "duration_s"],
+    "required": [
+      "topic",
+      "duration_s"
+    ],
     "properties": {
       "topic": {
         "type": "string",
@@ -25,13 +28,19 @@
       "mode": {
         "type": "string",
         "description": "script=纯口播稿（默认）；storyboard=带七字段分镜表",
-        "enum": ["script", "storyboard"]
+        "enum": [
+          "script",
+          "storyboard"
+        ]
       }
     }
   },
   "output": {
     "type": "object",
-    "required": ["script", "balance"],
+    "required": [
+      "script",
+      "balance"
+    ],
     "properties": {
       "script": {
         "type": "string",
@@ -43,13 +52,33 @@
         "items": {
           "type": "object",
           "properties": {
-            "镜头号": { "type": "number" },
-            "景别": { "type": "string", "enum": ["特写", "近景", "中景", "全景"] },
-            "时长": { "type": "number" },
-            "画面": { "type": "string" },
-            "台词": { "type": "string" },
-            "字幕": { "type": "string" },
-            "音效": { "type": "string" }
+            "镜头号": {
+              "type": "number"
+            },
+            "景别": {
+              "type": "string",
+              "enum": [
+                "特写",
+                "近景",
+                "中景",
+                "全景"
+              ]
+            },
+            "时长": {
+              "type": "number"
+            },
+            "画面": {
+              "type": "string"
+            },
+            "台词": {
+              "type": "string"
+            },
+            "字幕": {
+              "type": "string"
+            },
+            "音效": {
+              "type": "string"
+            }
           }
         }
       },
@@ -59,11 +88,21 @@
         "items": {
           "type": "object",
           "properties": {
-            "段落": { "type": "string" },
-            "时长": { "type": "number" },
-            "台词字数": { "type": "number" },
-            "语速": { "type": "number" },
-            "判定": { "type": "string" }
+            "段落": {
+              "type": "string"
+            },
+            "时长": {
+              "type": "number"
+            },
+            "台词字数": {
+              "type": "number"
+            },
+            "语速": {
+              "type": "number"
+            },
+            "判定": {
+              "type": "string"
+            }
           }
         }
       }
@@ -95,6 +134,7 @@
       "指定可能侵权的 BGM 曲目"
     ],
     "ai_label_required": true,
-    "human_review_required": true
+    "human_review_required": true,
+    "external_api_required": false
   }
 }

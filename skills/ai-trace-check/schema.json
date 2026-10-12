@@ -4,7 +4,9 @@
   "type": "atomic",
   "input": {
     "type": "object",
-    "required": ["text"],
+    "required": [
+      "text"
+    ],
     "properties": {
       "text": {
         "type": "string",
@@ -15,7 +17,11 @@
   },
   "output": {
     "type": "object",
-    "required": ["verdict", "metrics", "sentences"],
+    "required": [
+      "verdict",
+      "metrics",
+      "sentences"
+    ],
     "properties": {
       "verdict": {
         "type": "string",
@@ -35,17 +41,34 @@
         "items": {
           "type": "object",
           "properties": {
-            "#": { "type": "number" },
-            "句长": { "type": "number" },
-            "句子": { "type": "string" },
-            "痕迹标记": { "type": "string" },
-            "判定": { "type": "string", "enum": ["🔴", "🟡", "✅"] }
+            "#": {
+              "type": "number"
+            },
+            "句长": {
+              "type": "number"
+            },
+            "句子": {
+              "type": "string"
+            },
+            "痕迹标记": {
+              "type": "string"
+            },
+            "判定": {
+              "type": "string",
+              "enum": [
+                "🔴",
+                "🟡",
+                "✅"
+              ]
+            }
           }
         }
       },
       "issues": {
         "type": "array",
-        "items": { "type": "string" },
+        "items": {
+          "type": "string"
+        },
         "description": "按优先级排序的问题清单，每条带可落笔的改写方向"
       }
     }
@@ -84,6 +107,7 @@
       "承诺平台 AI 检测必过"
     ],
     "ai_label_required": true,
-    "human_review_required": true
+    "human_review_required": true,
+    "external_api_required": false
   }
 }

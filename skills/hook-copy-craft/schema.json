@@ -4,7 +4,9 @@
   "type": "atomic",
   "input": {
     "type": "object",
-    "required": ["topic"],
+    "required": [
+      "topic"
+    ],
     "properties": {
       "topic": {
         "type": "string",
@@ -17,7 +19,13 @@
       "platform": {
         "type": "string",
         "description": "抖音/小红书/B站，默认抖音",
-        "enum": ["抖音", "小红书", "B站", "视频号", "通用"]
+        "enum": [
+          "抖音",
+          "小红书",
+          "B站",
+          "视频号",
+          "通用"
+        ]
       },
       "evidence": {
         "type": "string",
@@ -27,7 +35,11 @@
   },
   "output": {
     "type": "object",
-    "required": ["hooks", "ab_plan", "risks"],
+    "required": [
+      "hooks",
+      "ab_plan",
+      "risks"
+    ],
     "properties": {
       "hooks": {
         "type": "array",
@@ -35,11 +47,35 @@
         "items": {
           "type": "object",
           "properties": {
-            "钩子台词": { "type": "string", "description": "可直接开拍，首句 ≤15 字（标点不计）" },
-            "类型": { "type": "string", "enum": ["悬念", "反差", "利益", "提问", "热点借势"] },
-            "字数": { "type": "number" },
-            "信息差在哪": { "type": "string", "description": "3 秒内观众拿走的未解项" },
-            "兑现难度": { "type": "string", "enum": ["低", "中", "高"] }
+            "钩子台词": {
+              "type": "string",
+              "description": "可直接开拍，首句 ≤15 字（标点不计）"
+            },
+            "类型": {
+              "type": "string",
+              "enum": [
+                "悬念",
+                "反差",
+                "利益",
+                "提问",
+                "热点借势"
+              ]
+            },
+            "字数": {
+              "type": "number"
+            },
+            "信息差在哪": {
+              "type": "string",
+              "description": "3 秒内观众拿走的未解项"
+            },
+            "兑现难度": {
+              "type": "string",
+              "enum": [
+                "低",
+                "中",
+                "高"
+              ]
+            }
           }
         }
       },
@@ -67,6 +103,7 @@
       "蹭灾难悲剧热点、擦边低俗"
     ],
     "ai_label_required": true,
-    "human_review_required": true
+    "human_review_required": true,
+    "external_api_required": false
   }
 }
