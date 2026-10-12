@@ -119,23 +119,23 @@ script-writer-zh/
 
 ## 技能清单（6 个）
 
-| # | 技能 | 能力族 | 复杂度 | 提示词 | 文档 |
-|---|------|--------|--------|--------|------|
-| 1 | 脚本结构生成 | 脚本与分镜生成 | `S` | [prompt.txt](skills/script-structure-generate/prompt.txt) | [docs](skills/script-structure-generate/docs/) |
-| 2 | 钩子文案锻造 | 钩子与创意生成 | `S` | [prompt.txt](skills/hook-copy-craft/prompt.txt) | [docs](skills/hook-copy-craft/docs/) |
-| 3 | 口语化改写 | 改写与适配 | `S` | [prompt.txt](skills/colloquial-rewrite/prompt.txt) | [docs](skills/colloquial-rewrite/docs/) |
-| 4 | 人设语气库 | 摘要与聚类 | `S` | [prompt.txt](skills/persona-voice-library/prompt.txt) | [docs](skills/persona-voice-library/docs/) |
-| 5 | AI 痕迹自检 | 异动检测与预警 | `M` | [prompt.txt](skills/ai-trace-check/prompt.txt) | [docs](skills/ai-trace-check/docs/) |
-| 6 | 敏感词预审 | 合规校验 | `M` | [prompt.txt](skills/sensitive-word-precheck/prompt.txt) | [docs](skills/sensitive-word-precheck/docs/) |
+| # | 技能 | 能力族 | 复杂度 | 说明文档 |
+|---|------|--------|--------|----------|
+| 1 | 脚本结构生成 | 脚本与分镜生成 | `S` | [README](skills/script-structure-generate/README.md) |
+| 2 | 钩子文案锻造 | 钩子与创意生成 | `S` | [README](skills/hook-copy-craft/README.md) |
+| 3 | 口语化改写 | 改写与适配 | `S` | [README](skills/colloquial-rewrite/README.md) |
+| 4 | 人设语气库 | 摘要与聚类 | `S` | [README](skills/persona-voice-library/README.md) |
+| 5 | AI 痕迹自检 | 异动检测与预警 | `M` | [README](skills/ai-trace-check/README.md) |
+| 6 | 敏感词预审 | 合规校验 | `M` | [README](skills/sensitive-word-precheck/README.md) |
 
 ## 工作流清单（4 条）
 
-| # | 工作流 | 阶段 | 复杂度 | 触发 | 定义 | 文档 |
-|---|--------|------|--------|------|------|------|
-| 1 | 选题转脚本 | `P0` | `S` | 人工（选题确认后） | [SKILL.md](workflows/topic-to-script-flow/SKILL.md) | [docs](workflows/topic-to-script-flow/docs/) |
-| 2 | 口播稿口语化改写 | `P0` | `S` | 事件（WF1 后自动） | [SKILL.md](workflows/voiceover-colloquial-flow/SKILL.md) | [docs](workflows/voiceover-colloquial-flow/docs/) |
-| 3 | 分镜与拍摄清单 | `P1` | `S` | 人工（按需） | [SKILL.md](workflows/storyboard-shotlist-flow/SKILL.md) | [docs](workflows/storyboard-shotlist-flow/docs/) |
-| 4 | AI 痕迹检测与降 AI 味 | `P0` | `M` | 事件（交付前强制闸门） | [SKILL.md](workflows/ai-trace-detect-reduce-flow/SKILL.md) | [docs](workflows/ai-trace-detect-reduce-flow/docs/) |
+| # | 工作流 | 阶段 | 复杂度 | 触发 | 说明文档 |
+|---|--------|------|--------|------|----------|
+| 1 | 选题转脚本 | `P0` | `S` | 人工（选题确认后） | [README](workflows/topic-to-script-flow/README.md) |
+| 2 | 口播稿口语化改写 | `P0` | `S` | 事件（WF1 后自动） | [README](workflows/voiceover-colloquial-flow/README.md) |
+| 3 | 分镜与拍摄清单 | `P1` | `S` | 人工（按需） | [README](workflows/storyboard-shotlist-flow/README.md) |
+| 4 | AI 痕迹检测与降 AI 味 | `P0` | `M` | 事件（交付前强制闸门） | [README](workflows/ai-trace-detect-reduce-flow/README.md) |
 
 ---
 
